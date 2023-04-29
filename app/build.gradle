@@ -1,0 +1,66 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.app.weatherhaven'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.app.weatherhaven"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        buildConfigField  "String","API_KEY",'"4d5365574f68616b33355675786c58"'
+        buildConfigField  "String","API_KEY2",'"476e48497768616b3130397579536c4f"'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    viewBinding {
+        enabled = true
+    }
+    dataBinding {
+        enabled = true
+    }
+
+
+}
+
+dependencies {
+
+    //jsoup 라이브러리 웹 크롤링
+    implementation("org.jsoup:jsoup:1.15.4")
+    //코루틴
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
+    // Gson 라이브러리를 사용하기 위한 의존성 추가
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+// 레트로핏 라이브러리를 사용하기 위한 의존성 추가
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
