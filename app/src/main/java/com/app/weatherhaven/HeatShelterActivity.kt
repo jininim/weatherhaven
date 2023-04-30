@@ -33,8 +33,10 @@ class HeatShelterActivity : AppCompatActivity() {
                     ) {
                         //성공 했을때
                         if (response.isSuccessful) {
-                            response.body()?.let{DATA ->
-                                Log.d("giiiiiiiiiiiiiiiiiiiiiii",DATA.TbGtnHwcwP.toString())
+                                val response = response.body()
+                            if(response != null){
+                                val data = response.TbGtnHwcwP.row
+                                Log.d("sadasdada", data[4].toString())
                             }
                         }
                     }
