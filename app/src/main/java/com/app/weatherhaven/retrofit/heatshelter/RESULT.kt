@@ -1,4 +1,4 @@
-package com.app.weatherhaven.retrofit.heatShelter
+package com.app.weatherhaven.retrofit.heatshelter
 
 data class RESULT(
     val CODE: String,

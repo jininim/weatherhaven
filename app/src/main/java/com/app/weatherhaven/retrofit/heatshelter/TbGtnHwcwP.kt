@@ -1,6 +1,6 @@
-package com.app.weatherhaven.retrofit.heatShelter
+package com.app.weatherhaven.retrofit.heatshelter
 
-data class WeatherData(
+data class TbGtnHwcwP(
     val list_total_count: Int,
     val RESULT: RESULT,
     val row: List<Row>

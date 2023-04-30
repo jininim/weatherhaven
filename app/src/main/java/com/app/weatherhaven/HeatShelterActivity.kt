@@ -4,8 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.app.weatherhaven.databinding.ActivityHeatShelterBinding
-import com.app.weatherhaven.retrofit.heatShelter.DATA
-import com.app.weatherhaven.retrofit.heatShelter.RetrofitService
+import com.app.weatherhaven.retrofit.heatshelter.DATA
+import com.app.weatherhaven.retrofit.heatshelter.RetrofitService
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,7 +21,7 @@ class HeatShelterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://openapi.seoul.go.kr:8088/")
+            .baseUrl("http://openapi.seoul.go.kr:8088/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         retrofit.create(RetrofitService::class.java).also {
@@ -32,15 +33,15 @@ class HeatShelterActivity : AppCompatActivity() {
                     ) {
                         //성공 했을때
                         if (response.isSuccessful) {
-                            response.body()?.let{
-                                Log.d("giiiiiiiiiiiiiiiiiiiiiii",it.TbGtnHwcwP.toString())
+                            response.body()?.let{DATA ->
+                                Log.d("giiiiiiiiiiiiiiiiiiiiiii",DATA.TbGtnHwcwP.toString())
                             }
                         }
                     }
 
                     override fun onFailure(call: Call<DATA>, t: Throwable) {
                         //실패 했을때
-                        Log.d("YMC", "onFailure 에러: " + t.message.toString());
+                        Log.d("YMC", "onFailure 에러: " + t.message.toString())
                     }
 
                 })

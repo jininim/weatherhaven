@@ -1,4 +1,4 @@
-package com.app.weatherhaven.retrofit.heatShelter
+package com.app.weatherhaven.retrofit.heatshelter
 
 import retrofit2.Call
 import retrofit2.http.GET
@@ -10,5 +10,4 @@ interface RetrofitService {
         @Path("start") start: Int,
         @Path("end") end: Int
     ): Call<DATA>
-
 }

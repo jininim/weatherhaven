@@ -3,7 +3,6 @@ package com.app.weatherhaven
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.core.view.isVisible
 import com.app.weatherhaven.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         //무더위 쉼터 버튼 클릭
         binding.heatShelters.setOnClickListener {
-            val intent = Intent(this,HeatShelterActivity::class.java)
+            val intent = Intent(this, HeatShelterActivity::class.java)
             startActivity(intent)
         }
 
