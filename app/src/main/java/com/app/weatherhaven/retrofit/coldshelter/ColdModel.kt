@@ -1,5 +1,8 @@
 package com.app.weatherhaven.retrofit.coldshelter
 
+data class ColdDTO(
+    val DATA: List<ColdModel>
+)
 data class ColdModel(
     val c_end_wd: String, // 한파쉼터주말종료시간
     val r_seq_no: String, // 시설코드

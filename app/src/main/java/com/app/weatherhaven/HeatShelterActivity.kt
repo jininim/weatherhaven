@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.app.weatherhaven.databinding.ActivityHeatShelterBinding
-import com.app.weatherhaven.retrofit.HeatShelter
-import com.app.weatherhaven.retrofit.HeatShelterList
-import com.app.weatherhaven.retrofit.RetrofitManager.myApi
-import com.app.weatherhaven.retrofit.RetrofitService
+import com.app.weatherhaven.retrofit.heatShelter.RetrofitManager.myApi
+import com.app.weatherhaven.retrofit.heatShelter.TbGtnHwcwP
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,26 +15,29 @@ class HeatShelterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHeatShelterBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        val call: Call<HeatShelterList> = myApi.getData("4d5365574f68616b33355675786c58","json","TbGtnHwcwP",1,1000)
-        call.enqueue(object : Callback<HeatShelterList>{
+        val call: Call<TbGtnHwcwP> = myApi.getData()
+        call.enqueue(object : Callback<TbGtnHwcwP>{
             override fun onResponse(
-                call: Call<HeatShelterList>,
-                response: Response<HeatShelterList>
+                call: Call<TbGtnHwcwP>,
+                response: Response<TbGtnHwcwP>
             ) {
                 //성공 했을때
                 if (response.isSuccessful) {
-                    val data: HeatShelterList? = response.body()
-                    Log.d("giiiiiiiiiiiiiiii",data.toString())
+                    response.body()?.let{
+                        Log.d("giiiiiiiiiiiiiiiiiiiiiii",it.row.toString())
+                    }
                 }
             }
 
-            override fun onFailure(call: Call<HeatShelterList>, t: Throwable) {
+            override fun onFailure(call: Call<TbGtnHwcwP>, t: Throwable) {
                 //실패 했을때
                 Log.d("YMC", "onFailure 에러: " + t.message.toString());
             }
 
         })
+        setContentView(binding.root)
+
+
     }
 }

@@ -1,4 +1,4 @@
-package com.app.weatherhaven.retrofit
+package com.app.weatherhaven.retrofit.heatShelter
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -10,7 +10,6 @@ object RetrofitManager {
         .baseUrl(URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
     val myApi: RetrofitService = retrofit.create(RetrofitService::class.java)
 
 }
