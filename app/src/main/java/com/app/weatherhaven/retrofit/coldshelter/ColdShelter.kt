@@ -1,4 +1,4 @@
-package com.app.weatherhaven.retrofit
+package com.app.weatherhaven.retrofit.coldshelter
 
 import com.google.gson.annotations.SerializedName
 
