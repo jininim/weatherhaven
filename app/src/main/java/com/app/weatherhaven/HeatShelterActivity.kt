@@ -1,13 +1,18 @@
 package com.app.weatherhaven
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
+import androidx.viewpager2.widget.ViewPager2
 import com.app.weatherhaven.databinding.ActivityHeatShelterBinding
 import com.app.weatherhaven.retrofit.heatshelter.DATA
 import com.app.weatherhaven.retrofit.heatshelter.RetrofitService
 import com.app.weatherhaven.retrofit.heatshelter.Row
+import com.app.weatherhaven.viewpager.ColdViewPagerAdapter
+import com.app.weatherhaven.viewpager.HeatViewPagerAdapter
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapView
@@ -28,13 +33,27 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
     private val mapView: MapView by lazy {
         binding.mapView
     }
+    private val viewPager: ViewPager2 by lazy {
+        binding.heatViewPager
+    }
+    private val heatViewPagerAdapter =  HeatViewPagerAdapter(itemClicked = {
+
+    })
+    val bottomSheetTitleTextView: TextView by lazy {
+        binding.bottomSheet.bottomSheetTitleTextView
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHeatShelterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //맵 생성
         mapView.onCreate(savedInstanceState)
+        //맵 객체 받아오기
         mapView.getMapAsync(this)
+
+        //뷰 페이저 어답터
+        viewPager.adapter = heatViewPagerAdapter
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://openapi.seoul.go.kr:8088/")
@@ -43,6 +62,7 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
         retrofit.create(RetrofitService::class.java).also {
             it.getData(1,1000)
                 .enqueue(object : Callback<DATA>{
+                    @SuppressLint("SetTextI18n")
                     override fun onResponse(
                         call: Call<DATA>,
                         response: Response<DATA>
@@ -52,8 +72,9 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
                                 val response = response.body()
                             if(response != null){
                                 val data = response.TbGtnHwcwP.row
-                                Log.d("sadasdada", data[4].toString())
-                                updateMarker(data)
+                                updateMarker(data) // 마커찍기
+                                heatViewPagerAdapter.submitList(data)
+                                bottomSheetTitleTextView.text = "${data.size}개의 쉼터"
                             }
                         }
                     }

@@ -71,7 +71,7 @@ class ColdShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
     private fun updateMarker(coldShelters: List<ColdModel>){ // 마커 찍기
         coldShelters.forEach{ cold ->
             val marker = Marker() // 마커 객체 생성
-            //marker.position = LatLng(cold.lat, cold.lng) // 마커 위치 설정
+//            marker.position = LatLng(cold.lat, cold.lng) // 마커 위치 설정
             marker.onClickListener = this // 마커 클릭 시 이벤트 -> onClick 함수
             marker.map = naverMap // 네이버 맵 사용
             marker.tag = cold.r_seq_no // 마커 고유 번호
@@ -97,9 +97,7 @@ class ColdShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
 
                         response.body()?.let{ dto -> // 가져온 데이터로 마커찍기
                             //updateMarker(dto.DATA)
-                            Log.d("ColdActivity", dto.DATA.toString())
                             coldViewPagerAdapter.submitList(dto.DATA)
-
                             bottomSheetTitleTextView.text = "${dto.DATA.size}개의 쉼터"
                         }
                     }
@@ -110,6 +108,7 @@ class ColdShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
                 })
         }
     }
+
 
 
 

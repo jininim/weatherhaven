@@ -10,20 +10,21 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.weatherhaven.R
 import com.app.weatherhaven.retrofit.coldshelter.ColdModel
+import com.app.weatherhaven.retrofit.heatshelter.Row
 
-class ColdViewPagerAdapter(val itemClicked: (ColdModel) -> Unit): ListAdapter<ColdModel, ColdViewPagerAdapter.ItemViewHolder>(differ) {
+class HeatViewPagerAdapter(val itemClicked: (Row) -> Unit): ListAdapter<Row, HeatViewPagerAdapter.ItemViewHolder>(differ) {
 
     inner class ItemViewHolder(private val view: View): RecyclerView.ViewHolder(view){
         @SuppressLint("SetTextI18n")
-        fun bind(coldModel: ColdModel){
+        fun bind(heatModel: Row){
             val titleTextView = view.findViewById<TextView>(R.id.titleTextView)
             val contentTextView = view.findViewById<TextView>(R.id.contentTextView)
 
-            titleTextView.text = coldModel.r_area_nm
-            contentTextView.text = "이용가능 인원 : ${coldModel.use_prnb}명"
+            titleTextView.text = heatModel.R_AREA_NM // 쉼터 명
+            contentTextView.text = "이용가능 인원 : ${heatModel.USE_PRNB}명"
 
             view.setOnClickListener {
-                itemClicked(coldModel)
+                itemClicked(heatModel)
             }
         }
     }
@@ -38,12 +39,12 @@ class ColdViewPagerAdapter(val itemClicked: (ColdModel) -> Unit): ListAdapter<Co
     }
 
     companion object{
-        val differ = object : DiffUtil.ItemCallback<ColdModel>(){
-            override fun areItemsTheSame(oldItem: ColdModel, newItem: ColdModel): Boolean {
-                return oldItem.r_seq_no == newItem.r_seq_no
+        val differ = object : DiffUtil.ItemCallback<Row>(){
+            override fun areItemsTheSame(oldItem: Row, newItem: Row): Boolean {
+                return oldItem.R_SEQ_NO == newItem.R_SEQ_NO
             }
 
-            override fun areContentsTheSame(oldItem: ColdModel, newItem: ColdModel): Boolean {
+            override fun areContentsTheSame(oldItem: Row, newItem: Row): Boolean {
                 return oldItem == newItem
             }
         }

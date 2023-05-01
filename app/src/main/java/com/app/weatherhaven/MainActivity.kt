@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
+
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -48,7 +50,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
     }
+
 }
