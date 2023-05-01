@@ -32,25 +32,67 @@
         app:layout_constraintStart_toStartOf="@+id/todayweather"
         app:layout_constraintTop_toBottomOf="@+id/todayweather" />
 
-    <Button
-        android:id="@+id/heatShelters"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="56dp"
-        android:text="무더위 쉼터"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/coldShelters"
-        android:layout_width="120dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/heatShelters1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="56dp"
-        android:text="한파 쉼터"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/heatShelters"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitXY"
+            android:src="@drawable/heat"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="TODO" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="무더위 쉼터"
+            app:layout_constraintEnd_toEndOf="@+id/heatShelters"
+            app:layout_constraintStart_toStartOf="@+id/heatShelters"
+            app:layout_constraintTop_toBottomOf="@+id/heatShelters" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/coldShelters1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/coldShelters"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitXY"
+            android:src="@drawable/cold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="TODO" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="한파 쉼터"
+            app:layout_constraintEnd_toEndOf="@+id/coldShelters"
+            app:layout_constraintStart_toStartOf="@+id/coldShelters"
+            app:layout_constraintTop_toBottomOf="@+id/coldShelters" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/weatherDesc"
@@ -75,5 +117,7 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/temperature"
         app:layout_constraintStart_toEndOf="@+id/temperature" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
