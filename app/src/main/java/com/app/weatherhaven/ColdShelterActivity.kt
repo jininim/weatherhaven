@@ -40,7 +40,7 @@ class ColdShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
     private val coldViewPagerAdapter =  ColdViewPagerAdapter(itemClicked = {
 
     })
-    val bottomSheetTitleTextView: TextView by lazy {
+   val bottomSheetTitleTextView: TextView by lazy {
         binding.bottomSheet.bottomSheetTitleTextView
     }
 

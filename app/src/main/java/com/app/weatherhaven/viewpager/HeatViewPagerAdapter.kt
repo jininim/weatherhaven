@@ -21,7 +21,7 @@ class HeatViewPagerAdapter(val itemClicked: (Row) -> Unit): ListAdapter<Row, Hea
             val contentTextView = view.findViewById<TextView>(R.id.contentTextView)
 
             titleTextView.text = heatModel.R_AREA_NM // 쉼터 명
-            contentTextView.text = "이용가능 인원 : ${heatModel.USE_PRNB}명"
+            contentTextView.text = "이용가능 인원 : ${heatModel.USE_PRNB.toInt()}명"
 
             view.setOnClickListener {
                 itemClicked(heatModel)
