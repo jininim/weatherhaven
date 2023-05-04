@@ -1,19 +1,26 @@
 package com.app.weatherhaven
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.app.weatherhaven.databinding.ActivityHeatShelterBinding
 import com.app.weatherhaven.retrofit.heatshelter.DATA
 import com.app.weatherhaven.retrofit.heatshelter.RetrofitService
 import com.app.weatherhaven.retrofit.heatshelter.Row
-import com.app.weatherhaven.viewpager.ColdViewPagerAdapter
-import com.app.weatherhaven.viewpager.HeatViewPagerAdapter
+import com.google.android.gms.location.*
 import com.google.gson.JsonObject
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
@@ -41,11 +48,16 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
     private var start = 1
     private var pageSize = 100
     private var totalCount = 0
+
+    var PERMISSION = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+
+
     //런타임 권한 처리
     private lateinit var locationSource: FusedLocationSource
 
     private val infoWindow = InfoWindow() //정보 창
 
+    //레트로핏 빌더
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://openapi.seoul.go.kr:8088/")
         .addConverterFactory(GsonConverterFactory.create())
@@ -59,9 +71,6 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
         binding.heatViewPager
     }
 
-    private val heatViewPagerAdapter = HeatViewPagerAdapter(itemClicked = {
-
-    })
 
     val bottomSheetTitleTextView: TextView by lazy {
         binding.bottomSheet.bottomSheetTitleTextView
@@ -76,21 +85,14 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
         mapView.onCreate(savedInstanceState)
         //맵 객체 받아오기
         mapView.getMapAsync(this)
+        locationSource =
+            FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
 
 
-        //위치 오버레이
-
-
-        //뷰 페이저 어답터
-        viewPager.adapter = heatViewPagerAdapter
 
         //api 호출
         val apiService = retrofit.create(RetrofitService::class.java)
-
-
-
-
         //total count 가져오기
             apiService.getData(1,1).enqueue(object: Callback<DATA>{
                 @SuppressLint("SetTextI18n")
@@ -156,6 +158,7 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
 
 
     }
+
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
@@ -163,6 +166,10 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
                 grantResults)) {
             if (!locationSource.isActivated) { // 권한 거부됨
                 naverMap.locationTrackingMode = LocationTrackingMode.None
+            }else{
+                naverMap.locationTrackingMode = LocationTrackingMode.Follow
+                val locationOverlay = naverMap.locationOverlay
+                locationOverlay.isVisible = true
             }
 
             return
@@ -172,10 +179,17 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
 
 
 
+
+
+
+
+
     private fun updateMarker(datas: MutableList<List<Row>>) { // 마커 찍기
         datas.forEach { data ->
             data.forEach { row->
                 val marker = Marker()
+                marker.position = LatLng(row.LA.toDouble(), row.LO.toDouble()) // 마커 좌표
+                marker.map = naverMap
                 //마커 태그
                 marker.tag = "수용 가능 인원 ${row.USE_PRNB.toInt()}명\n" +
                         "선풍기 보유대수 ${row.CLER1_CNT.toInt()}개\n" +
@@ -183,10 +197,8 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
                 marker.width = 80 // 마커 크기 가로
                 marker.height = 110// 마커 크기 세로
                 marker.captionText = row.R_AREA_NM //마커 하단 텍스트
-                marker.position = LatLng(row.LA.toDouble(), row.LO.toDouble()) // 마커 좌표
                 marker.icon = MarkerIcons.BLACK //마커 아이콘
                 marker.iconTintColor = Color.RED // 마커 색
-                marker.map = naverMap
                 //마커 태그 표시
                 infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
                     override fun getText(infoWindow: InfoWindow): CharSequence {
@@ -198,35 +210,45 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
         }
     }
     companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+         const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
+
+
 
     override fun onMapReady(map: NaverMap) {
         naverMap = map
-        naverMap.maxZoom = 18.0 // 최대 줌
-        naverMap.minZoom = 10.0 // 최소 줌
-        locationSource =
-            FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+        ActivityCompat.requestPermissions(this,PERMISSION, LOCATION_PERMISSION_REQUEST_CODE)
+
+        //로케이션 버튼
+        binding.currentLocationButton.map = naverMap
+        // 현재 위치 받아오기
         naverMap.locationSource = locationSource
 
-        //위치 오버레이
-        val locationOverlay = naverMap.locationOverlay
-        locationOverlay.isVisible = true
+        val uiSetting = naverMap.uiSettings // 현위치 버튼
+        uiSetting.isLocationButtonEnabled = false
+
+        naverMap.maxZoom = 18.0 // 최대 줌
+        naverMap.minZoom = 10.0 // 최소 줌
 
         //위치 변경 이벤트
         naverMap.addOnLocationChangeListener { location ->
-            Toast.makeText(this, "${location.latitude}, ${location.longitude}",
-                Toast.LENGTH_SHORT).show()
+            val cameraUpdate = CameraUpdate.scrollTo(LatLng(location.latitude, location.longitude))
+            naverMap.moveCamera(cameraUpdate)
         }
 
 
-//        val cameraUpdate =
-//            CameraUpdate.scrollTo(LatLng(37.497898550942466, 127.02768639039702)) // 초기 화면 설정
-//        naverMap.moveCamera(cameraUpdate)
+
     }
 
     override fun onClick(p0: Overlay): Boolean {
         val marker = p0 as Marker
+
+        //마커 위치에 따른 카메라 이동
+        val cameraUpdate =
+            CameraUpdate.scrollTo(LatLng(marker.position.latitude, marker.position.longitude))
+                .animate(CameraAnimation.Fly, 1000)
+        naverMap.moveCamera(cameraUpdate)
+
         if (marker.infoWindow == null) {
             // 현재 마커에 정보 창이 열려있지 않을 경우 엶
             infoWindow.open(marker)

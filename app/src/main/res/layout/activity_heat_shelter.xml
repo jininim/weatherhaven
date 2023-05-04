@@ -12,6 +12,13 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="80dp"/>
 
+    <com.naver.maps.map.widget.LocationButtonView
+        android:id="@+id/currentLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="12dp"/>
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/heatViewPager"
         android:layout_width="match_parent"
