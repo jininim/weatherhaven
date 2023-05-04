@@ -16,13 +16,11 @@ import com.app.weatherhaven.viewpager.ColdViewPagerAdapter
 import com.app.weatherhaven.viewpager.HeatViewPagerAdapter
 import com.google.gson.JsonObject
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.CameraUpdate
-import com.naver.maps.map.MapView
-import com.naver.maps.map.NaverMap
-import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.*
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
+import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,12 +34,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnClickListener {
     private lateinit var binding: ActivityHeatShelterBinding
+
     private lateinit var naverMap: NaverMap
+
     private var dataList : MutableList<List<Row>> = mutableListOf()
     private var start = 1
     private var pageSize = 100
     private var totalCount = 0
+    //런타임 권한 처리
+    private lateinit var locationSource: FusedLocationSource
+
     private val infoWindow = InfoWindow() //정보 창
+
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://openapi.seoul.go.kr:8088/")
         .addConverterFactory(GsonConverterFactory.create())
@@ -50,12 +54,15 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
     private val mapView: MapView by lazy {
         binding.mapView
     }
+
     private val viewPager: ViewPager2 by lazy {
         binding.heatViewPager
     }
+
     private val heatViewPagerAdapter = HeatViewPagerAdapter(itemClicked = {
 
     })
+
     val bottomSheetTitleTextView: TextView by lazy {
         binding.bottomSheet.bottomSheetTitleTextView
     }
@@ -69,6 +76,11 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
         mapView.onCreate(savedInstanceState)
         //맵 객체 받아오기
         mapView.getMapAsync(this)
+
+
+
+        //위치 오버레이
+
 
         //뷰 페이저 어답터
         viewPager.adapter = heatViewPagerAdapter
@@ -144,6 +156,19 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
 
 
     }
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>,
+                                            grantResults: IntArray) {
+        if (locationSource.onRequestPermissionsResult(requestCode, permissions,
+                grantResults)) {
+            if (!locationSource.isActivated) { // 권한 거부됨
+                naverMap.locationTrackingMode = LocationTrackingMode.None
+            }
+
+            return
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 
 
 
@@ -151,9 +176,10 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
         datas.forEach { data ->
             data.forEach { row->
                 val marker = Marker()
+                //마커 태그
                 marker.tag = "수용 가능 인원 ${row.USE_PRNB.toInt()}명\n" +
-                        "선풍기 보유대수${row.CLER1_CNT.toInt()}개\n" +
-                        "에어컨 보유대수${row.CLER2_CNT.toInt()}개"
+                        "선풍기 보유대수 ${row.CLER1_CNT.toInt()}개\n" +
+                        "에어컨 보유대수 ${row.CLER2_CNT.toInt()}개"
                 marker.width = 80 // 마커 크기 가로
                 marker.height = 110// 마커 크기 세로
                 marker.captionText = row.R_AREA_NM //마커 하단 텍스트
@@ -161,29 +187,42 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
                 marker.icon = MarkerIcons.BLACK //마커 아이콘
                 marker.iconTintColor = Color.RED // 마커 색
                 marker.map = naverMap
-                //마커 정보
+                //마커 태그 표시
                 infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
                     override fun getText(infoWindow: InfoWindow): CharSequence {
                         return infoWindow.marker?.tag as CharSequence? ?: ""
                     }
                 }
                marker.onClickListener = this
-
-
-
             }
-
         }
+    }
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
 
     override fun onMapReady(map: NaverMap) {
         naverMap = map
         naverMap.maxZoom = 18.0 // 최대 줌
         naverMap.minZoom = 10.0 // 최소 줌
+        locationSource =
+            FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+        naverMap.locationSource = locationSource
 
-        val cameraUpdate =
-            CameraUpdate.scrollTo(LatLng(37.497898550942466, 127.02768639039702)) // 초기 화면 설정
-        naverMap.moveCamera(cameraUpdate)
+        //위치 오버레이
+        val locationOverlay = naverMap.locationOverlay
+        locationOverlay.isVisible = true
+
+        //위치 변경 이벤트
+        naverMap.addOnLocationChangeListener { location ->
+            Toast.makeText(this, "${location.latitude}, ${location.longitude}",
+                Toast.LENGTH_SHORT).show()
+        }
+
+
+//        val cameraUpdate =
+//            CameraUpdate.scrollTo(LatLng(37.497898550942466, 127.02768639039702)) // 초기 화면 설정
+//        naverMap.moveCamera(cameraUpdate)
     }
 
     override fun onClick(p0: Overlay): Boolean {
@@ -233,4 +272,6 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
         super.onLowMemory()
         mapView.onLowMemory()
     }
+
+
 }
