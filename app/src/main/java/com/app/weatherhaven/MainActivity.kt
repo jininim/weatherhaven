@@ -1,8 +1,9 @@
 package com.app.weatherhaven
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.location.Geocoder
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.app.weatherhaven.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
@@ -10,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
-
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -49,6 +50,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, HeatShelterActivity::class.java)
             startActivity(intent)
         }
+
+
 
     }
 

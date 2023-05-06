@@ -67,14 +67,6 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
         binding.mapView
     }
 
-    private val viewPager: ViewPager2 by lazy {
-        binding.heatViewPager
-    }
-
-
-    val bottomSheetTitleTextView: TextView by lazy {
-        binding.bottomSheet.bottomSheetTitleTextView
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,7 +124,7 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
                                 }
                                 withContext(Dispatchers.Main){
                                     updateMarker(dataList) // 마커찍기
-                                    bottomSheetTitleTextView.text = "${totalCount}개의 쉼터"
+                                    binding.bottomSheetTitleTextView.text = "${totalCount}개의 쉼터"
                                 }
                             }
 
@@ -230,19 +222,11 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
         naverMap.maxZoom = 18.0 // 최대 줌
         naverMap.minZoom = 10.0 // 최소 줌
 
-        //위치 변경 이벤트
-        naverMap.addOnLocationChangeListener { location ->
-            val cameraUpdate = CameraUpdate.scrollTo(LatLng(location.latitude, location.longitude))
-            naverMap.moveCamera(cameraUpdate)
-        }
-
-
 
     }
 
     override fun onClick(p0: Overlay): Boolean {
         val marker = p0 as Marker
-
         //마커 위치에 따른 카메라 이동
         val cameraUpdate =
             CameraUpdate.scrollTo(LatLng(marker.position.latitude, marker.position.longitude))
