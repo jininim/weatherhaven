@@ -186,6 +186,7 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
                 marker.tag = "수용 가능 인원 ${row.USE_PRNB.toInt()}명\n" +
                         "선풍기 보유대수 ${row.CLER1_CNT.toInt()}개\n" +
                         "에어컨 보유대수 ${row.CLER2_CNT.toInt()}개"
+
                 marker.width = 80 // 마커 크기 가로
                 marker.height = 110// 마커 크기 세로
                 marker.captionText = row.R_AREA_NM //마커 하단 텍스트
