@@ -77,6 +77,7 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
         mapView.onCreate(savedInstanceState)
         //맵 객체 받아오기
         mapView.getMapAsync(this)
+        //위치 정보 받아오기
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 

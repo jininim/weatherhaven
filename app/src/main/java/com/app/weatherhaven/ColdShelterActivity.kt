@@ -209,7 +209,7 @@ class ColdShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
                                     marker.height = 110// 마커 크기 세로
                                     marker.captionText = row.R_AREA_NM //마커 하단 텍스트
                                     marker.icon = MarkerIcons.BLACK //마커 아이콘
-                                    marker.iconTintColor = Color.RED // 마커 색
+                                    marker.iconTintColor = Color.BLUE // 마커 색
 
                                     //마커 태그 표시
                                     infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this@ColdShelterActivity) {
