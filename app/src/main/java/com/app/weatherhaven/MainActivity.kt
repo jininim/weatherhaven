@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val doc = Jsoup.connect("https://www.weather.com/ko-KR/weather/today/l/KSXX0037:1:KS").get()
             //날씨 + 체감온도
-            val temperature = doc.select(".CurrentConditions--tempValue--MHmYY").text()+ "/ " + doc.select(".TodayDetailsCard--feelsLikeTempValue--2icPt").text()
+            val temperature = doc.select(".CurrentConditions--tempValue--MHmYY").text()+"/ "+ doc.select(".TodayDetailsCard--feelsLikeTempValue--2icPt").text()
             //날씨 상태
             val weatherDesc = doc.select(".CurrentConditions--phraseValue--mZC_p").text()
             withContext(Dispatchers.Main) {

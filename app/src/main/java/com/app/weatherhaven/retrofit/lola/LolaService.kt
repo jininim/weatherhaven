@@ -16,7 +16,7 @@ interface LolaService {
         @Query("version")  version : String ="2.0",
         @Query("simple")  simple : String = "true",
         @Query("type")  type : String = "road",
-        @Query("key")  key : String ="EF052D12-0FAF-3030-8ED2-BBE7E461B6B1",
+        @Query("key")  key : String =BuildConfig.API_KEY2,
         @Query("address")  address : String
     ): Call<LOLA>
 

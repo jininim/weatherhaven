@@ -29,7 +29,6 @@
         android:id="@+id/bottomSheetTitleTextView"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:background="@drawable/top_radius_white_background"
         android:backgroundTint="#00000000"
         android:gravity="center"
         android:text="여러개의 쉼터"
