@@ -12,32 +12,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="오늘의 날씨"
-        android:textColor="@color/black"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
+        android:fontFamily="@font/regular"
+        android:text="@string/maintext"
+        android:textColor="#FF9800"
+        android:textSize="56sp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <TextView
+        android:id="@+id/todayweather2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:fontFamily="@font/regular"
+        android:text="서울시 쉼터"
+        android:textColor="#4CAF50"
+        android:textSize="56sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/heatShelters1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/sui"
         android:padding="0dp"
         android:text="기온"
         android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="85sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
+        android:textColor="@color/black"
+        android:textSize="54sp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/todayweather"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/todayweather"
-        app:layout_constraintTop_toBottomOf="@+id/todayweather" />
-
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/heatShelters1"
@@ -50,9 +66,9 @@
 
         <ImageButton
             android:id="@+id/heatShelters"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:backgroundTint="#F8BBD0"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:backgroundTint="#FCE4EC"
             android:contentDescription="TODO"
             android:scaleType="fitXY"
             android:src="@drawable/cottage"
@@ -63,6 +79,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/suihh"
             android:text="무더위 쉼터"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -85,9 +102,9 @@
 
         <ImageButton
             android:id="@+id/coldShelters"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:backgroundTint="#B3E5FC"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:backgroundTint="#E1F5FE"
             android:contentDescription="TODO"
             android:scaleType="fitXY"
             android:src="@drawable/cottage2"
@@ -97,6 +114,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/suihh"
             android:text="한파 쉼터"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -110,12 +128,14 @@
         android:id="@+id/weatherDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/sui"
         android:text="날씨 상태"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/temperature"
         app:layout_constraintStart_toStartOf="@+id/temperature"
         app:layout_constraintTop_toBottomOf="@+id/temperature" />
@@ -124,15 +144,73 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="-20dp"
-        android:text="기온 / 체감온도"
+        android:layout_marginBottom="-5dp"
+        android:fontFamily="@font/sui"
+        android:text="기온℃/ 습도%"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="12sp"
         android:textStyle="bold"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/temperature"
         app:layout_constraintEnd_toEndOf="@+id/temperature"
         app:layout_constraintStart_toStartOf="@+id/temperature" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
+        app:srcCompat="@drawable/sun" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:srcCompat="@drawable/cloudy" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/todayweather"
+        app:layout_constraintStart_toStartOf="@+id/todayweather"
+        app:layout_constraintTop_toBottomOf="@+id/todayweather"
+        app:srcCompat="@drawable/weather" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:srcCompat="@drawable/rainy" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:srcCompat="@drawable/snowflake" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dash_line" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

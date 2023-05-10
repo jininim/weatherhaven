@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">weatherhaven</string>
+    <string name="maintext">오늘의 날씨</string>
 </resources>

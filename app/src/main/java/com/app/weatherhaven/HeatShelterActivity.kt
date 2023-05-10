@@ -46,7 +46,7 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
 
     private var dataList : MutableList<List<Row>> = mutableListOf()
     private var start = 1
-    private var pageSize = 100
+    private var pageSize = 10
     private var totalCount = 0
 
     var PERMISSION = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -109,8 +109,11 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
                                             if (response.isSuccessful) {
                                                 val response = response.body()
                                                 if(response != null){
-                                                    val data = response.TbGtnHwcwP.row
-                                                    dataList.add(data)
+                                                    if(response.TbGtnHwcwP.row != null){
+                                                        val data = response.TbGtnHwcwP.row
+                                                        dataList.add(data)
+                                                    }
+
                                                 }
                                                 start += pageSize
                                             }
@@ -177,31 +180,34 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
 
 
 
-    private fun updateMarker(datas: MutableList<List<Row>>) { // 마커 찍기
-        datas.forEach { data ->
-            data.forEach { row->
-                val marker = Marker()
-                marker.position = LatLng(row.LA.toDouble(), row.LO.toDouble()) // 마커 좌표
-                marker.map = naverMap
-                //마커 태그
-                marker.tag = "수용 가능 인원 ${row.USE_PRNB.toInt()}명\n" +
-                        "선풍기 보유대수 ${row.CLER1_CNT.toInt()}개\n" +
-                        "에어컨 보유대수 ${row.CLER2_CNT.toInt()}개"
+    private fun updateMarker(datas: MutableList<List<Row>>) {
+        // 마커 찍기
+            datas.forEach { data ->
+                data.forEach { row->
+                    val marker = Marker()
+                    marker.position = LatLng(row.LA.toDouble(), row.LO.toDouble()) // 마커 좌표
+                    marker.map = naverMap
+                    //마커 태그
+                    marker.tag = "수용 가능 인원 ${row.USE_PRNB.toInt()}명\n" +
+                            "선풍기 보유대수 ${row.CLER1_CNT.toInt()}개\n" +
+                            "에어컨 보유대수 ${row.CLER2_CNT.toInt()}개"
 
-                marker.width = 80 // 마커 크기 가로
-                marker.height = 110// 마커 크기 세로
-                marker.captionText = row.R_AREA_NM //마커 하단 텍스트
-                marker.icon = MarkerIcons.BLACK //마커 아이콘
-                marker.iconTintColor = Color.RED // 마커 색
-                //마커 태그 표시
-                infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
-                    override fun getText(infoWindow: InfoWindow): CharSequence {
-                        return infoWindow.marker?.tag as CharSequence? ?: ""
+                    marker.width = 80 // 마커 크기 가로
+                    marker.height = 110// 마커 크기 세로
+                    marker.captionText = row.R_AREA_NM //마커 하단 텍스트
+                    marker.icon = MarkerIcons.BLACK //마커 아이콘
+                    marker.iconTintColor = Color.RED // 마커 색
+                    //마커 태그 표시
+                    infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
+                        override fun getText(infoWindow: InfoWindow): CharSequence {
+                            return infoWindow.marker?.tag as CharSequence? ?: ""
+                        }
                     }
+                    marker.onClickListener = this
                 }
-               marker.onClickListener = this
             }
-        }
+
+
     }
     companion object {
          const val LOCATION_PERMISSION_REQUEST_CODE = 1000

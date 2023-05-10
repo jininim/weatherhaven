@@ -56,7 +56,7 @@ class ColdShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
 
     private var dataList: MutableList<List<ColdRow>> = mutableListOf()
     private var start = 1
-    private var pageSize = 100
+    private var pageSize = 10
     private var totalCount = 0
 
     private val infoWindow = InfoWindow() //정보 창
