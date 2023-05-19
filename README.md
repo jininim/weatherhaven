@@ -1,7 +1,7 @@
 # weatherhaven
 서울시 열린데이터 광장 공공데이터 활용 서울시 쉼터&날씨 정보 서비스
 
-개발기간 : 2023.04.30 ~ 2023.5.1
+개발기간 : 2023.04.30 ~ 2023.5.19
 
 사용 언어 및 라이브러리 : Kotlin, Coroutine , Retrofit2 , Naver Cloud Platform Map API, vworld 오픈 API,openweathermap API
 
