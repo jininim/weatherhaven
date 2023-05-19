@@ -14,8 +14,7 @@
 • 사용자 위치 기반 주변 정보 제공: 현재 위치를 기반으로 근처의 무더위 쉼터와 한파 쉼터의 위치를 제공합니다.
 
 • 쉼터 상세 정보 제공: 선택한 무더위 쉼터와 한파 쉼터의 상세 정보(이용 가능한 인원, 쉼터 명, 주소, 난방 기구 및 냉방 기구의 개수 및 종류)를 제공합니다.
-![메인화면](https://github.com/jininim/weatherhaven/assets/91578450/bb6b8bfa-95cd-4f5a-bc50-edeb3451e6cc)
-![무더위쉼터](https://github.com/jininim/weatherhaven/assets/91578450/5945c80b-cac1-4dc0-a8c5-95347e42cdd9)
-![한파쉼터](https://github.com/jininim/weatherhaven/assets/91578450/475153da-af97-43d2-a5e0-5bc55f3d73aa)
+![그래픽이미지](https://github.com/jininim/weatherhaven/assets/91578450/843fea57-54b4-428c-9a56-3ab13056e628)
+
 
 
