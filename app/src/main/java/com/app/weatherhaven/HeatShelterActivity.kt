@@ -138,7 +138,7 @@ class HeatShelterActivity : AppCompatActivity(), OnMapReadyCallback, Overlay.OnC
                 }
 
                 override fun onFailure(call: Call<DATA>, t: Throwable) {
-                    TODO("Not yet implemented")
+
                 }
             })
 
